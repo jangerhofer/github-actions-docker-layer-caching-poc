@@ -3,7 +3,7 @@ name: The showdown!
 on:
   push: {}
 jobs:
-  build-docker:
+  buildx:
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v2
