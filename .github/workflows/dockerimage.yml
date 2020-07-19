@@ -1,5 +1,5 @@
 # Increase number to trigger CI -> 1
-name: The showdown
+name: The showdown!
 on:
   push: {}
 jobs:
