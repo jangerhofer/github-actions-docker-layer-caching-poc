@@ -22,7 +22,7 @@ jobs:
             ${{ runner.os }}-docker-
       - name: build docker image
         run: >
-          docker buildx build 
+          docker buildx build .
           --cache-from "type=local,src=$GITHUB_WORKSPACE/cache"
           --cache-to "type=local,dest=$GITHUB_WORKSPACE/cache"
           --output "type=image, name=your_image:CI,push=false":
