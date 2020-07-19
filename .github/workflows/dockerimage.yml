@@ -3,6 +3,29 @@ name: The showdown!
 on:
   push: {}
 jobs:
+  build-docker:
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v2
+      - name: install buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+          qemu-version: latest
+      - run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      - name: cache docker cache
+        uses: actions/cache@v1
+        with: 
+          path: ${{ github.workspace }}/cache
+          key: ${{ runner.os }}-docker-${{ hashfiles('cache/**') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+      - name: build docker image
+        run: >
+          docker buildx build 
+          --cache-from "type=local,src=$GITHUB_WORKSPACE/cache"
+          --cache-to "type=local,dest=$GITHUB_WORKSPACE/cache"
+          --output "type=image, name=your_image:CI,push=false":
   build_no_cache:
     runs-on: ubuntu-latest
     steps:
